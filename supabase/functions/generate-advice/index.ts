@@ -29,7 +29,7 @@ serve(async (req) => {
     const score = calculateScore(auditData, totalKwh);
 
     // Build AI prompt
-    const prompt = `You are sparxAI, an energy efficiency advisor for Kosovo households and SMEs.
+    const prompt = `You are SolarSense, an energy efficiency advisor for Kosovo households and SMEs.
 
 Profile:
 - Location: ${auditData.city}

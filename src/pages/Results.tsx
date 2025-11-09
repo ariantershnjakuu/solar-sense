@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { Loader2, Zap, Flame, Droplet, Home, ArrowRight, Sun } from "lucide-react";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Results = () => {
   const { id } = useParams();
@@ -79,15 +80,15 @@ const Results = () => {
   };
 
   const getDifficultyColor = (difficulty: number) => {
-    if (difficulty <= 2) return "bg-green-500";
-    if (difficulty <= 3) return "bg-yellow-500";
-    return "bg-orange-500";
+    if (difficulty <= 2) return "bg-emerald-50 text-emerald-700 border-emerald-300";
+    if (difficulty <= 3) return "bg-amber-50 text-amber-700 border-amber-300";
+    return "bg-rose-50 text-rose-700 border-rose-300";
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-green-500";
-    if (score >= 60) return "text-yellow-500";
-    return "text-orange-500";
+    if (score >= 80) return "text-emerald-500";
+    if (score >= 60) return "text-amber-500";
+    return "text-rose-500";
   };
 
   if (loading) {
@@ -104,8 +105,9 @@ const Results = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
-      <header className="container mx-auto px-4 py-6">
-        <img src={logo} alt="sparxAI" className="h-12" />
+      <header className="container mx-auto px-4 py-6 flex items-center justify-between">
+        <img src={logo} alt="SolarSense" className="h-12" />
+        <ThemeToggle />
       </header>
 
       <div className="container mx-auto px-4 py-8">
@@ -113,11 +115,11 @@ const Results = () => {
           {/* Score Card */}
           <Card className="bg-gradient-card border-border shadow-glow-primary">
             <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold mb-4">Your sparxScore</h2>
+              <h2 className="text-2xl font-bold mb-4">Your SolarSense Score</h2>
               <div className={`text-7xl font-bold ${getScoreColor(audit?.score || 0)} mb-4`}>
                 {audit?.score || 0}
               </div>
-              <Progress value={audit?.score || 0} className="h-3 mb-4" />
+              <Progress value={audit?.score || 0} className="h-3 mb-4 bg-muted [&>div]:bg-emerald-600" />
               <p className="text-muted-foreground">
                 {audit?.score >= 80
                   ? "Excellent! Your energy efficiency is above average."
@@ -137,33 +139,33 @@ const Results = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <Flame className="h-5 w-5 text-orange-500" />
+                  <Flame className="h-5 w-5 text-amber-500" />
                   <div className="flex-1">
                     <div className="flex justify-between mb-1">
                       <span>Space Heating</span>
                       <span className="font-semibold">{audit.end_use.heating_kwh || 0} kWh</span>
                     </div>
-                    <Progress value={60} />
+                    <Progress value={60} className="bg-muted [&>div]:bg-amber-600" />
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Droplet className="h-5 w-5 text-blue-500" />
+                  <Droplet className="h-5 w-5 text-sky-500" />
                   <div className="flex-1">
                     <div className="flex justify-between mb-1">
                       <span>Hot Water</span>
                       <span className="font-semibold">{audit.end_use.dhw_kwh || 0} kWh</span>
                     </div>
-                    <Progress value={25} />
+                    <Progress value={25} className="bg-muted [&>div]:bg-sky-600" />
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Zap className="h-5 w-5 text-accent" />
+                  <Zap className="h-5 w-5 text-emerald-500" />
                   <div className="flex-1">
                     <div className="flex justify-between mb-1">
                       <span>Appliances & Other</span>
                       <span className="font-semibold">{audit.end_use.appliances_kwh || 0} kWh</span>
                     </div>
-                    <Progress value={15} />
+                    <Progress value={15} className="bg-muted [&>div]:bg-emerald-600" />
                   </div>
                 </div>
               </CardContent>

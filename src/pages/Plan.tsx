@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Loader2, Plus, Trash2 } from "lucide-react";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type Action = {
   id: string;
@@ -107,8 +108,11 @@ const Plan = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <header className="container mx-auto px-4 py-6 flex items-center justify-between">
-        <img src={logo} alt="sparxAI" className="h-12" />
-        <Button variant="outline" onClick={() => navigate("/audit")}>New audit</Button>
+        <img src={logo} alt="SolarSense" className="h-12" />
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => navigate("/audit")}>New audit</Button>
+          <ThemeToggle />
+        </div>
       </header>
 
       <div className="container mx-auto px-4 py-8">

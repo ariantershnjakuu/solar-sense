@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { Loader2, Sun } from "lucide-react";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -191,7 +191,7 @@ const SolarPotential = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <header className="container mx-auto px-4 py-6 flex items-center justify-between print:hidden">
-        <img src={logo} alt="sparxAI" className="h-12" />
+        <img src={logo} alt="SolarSense" className="h-12" />
         <Button variant="outline" onClick={() => navigate(`/results/${id}`)}>Back to Results</Button>
       </header>
 

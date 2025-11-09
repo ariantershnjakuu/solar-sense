@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type BillRange = "<30" | "30-60" | "60-100" | "100-150" | ">150";
 
@@ -52,7 +53,7 @@ const SolarLead = () => {
         .single();
 
       if (error) throw error;
-      toast.success("Thanks! We'll be in touch to schedule a free readiness visit.");
+      toast.success("Thanks! We’ll reach out to schedule your professional audit.");
 
       if (data?.id) {
         navigate(`/site-visit/${data.id}`);
@@ -66,16 +67,17 @@ const SolarLead = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
-      <header className="container mx-auto px-4 py-6">
-        <img src={logo} alt="sparxAI" className="h-12" />
+      <header className="container mx-auto px-4 py-6 flex items-center justify-between">
+        <img src={logo} alt="SolarSense" className="h-12" />
+        <ThemeToggle />
       </header>
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-2xl">Free Solar Interest Check</CardTitle>
-              <CardDescription>Tell us what you know. No hassle, no commitment.</CardDescription>
+              <CardTitle className="text-2xl">Request a Professional Energy Audit</CardTitle>
+              <CardDescription>A local advisor will visit to assess your home.</CardDescription>
             </CardHeader>
             <CardContent>
               <form className="space-y-5" onSubmit={handleSubmit}>
@@ -104,7 +106,7 @@ const SolarLead = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="bill_range">Rough monthly bill</Label>
+                  <Label htmlFor="bill_range">Rough monthly electricity bill</Label>
                   <Select value={billRange} onValueChange={(v) => setBillRange(v as BillRange)}>
                     <SelectTrigger id="bill_range">
                       <SelectValue placeholder="Select a range" />
@@ -121,11 +123,11 @@ const SolarLead = () => {
 
                 <div className="p-4 rounded-lg bg-muted/50 border border-border">
                   <p className="text-sm text-muted-foreground">
-                    Based on your area’s sunlight and an average home size, solar could save you
+                    Based on your area and a typical home size, the right upgrades could save you
                     <span className="font-semibold text-accent"> ~€{estimateEur}/year</span>.
                   </p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Want a free home readiness check? A local advisor can visit to do a quick inspection.
+                    Want a professional home energy audit? A local advisor can do a quick on‑site visit.
                   </p>
                 </div>
 
@@ -134,7 +136,7 @@ const SolarLead = () => {
                   className="w-full bg-gradient-primary hover:opacity-90"
                   disabled={submitting}
                 >
-                  {submitting ? "Submitting..." : "Get my free readiness check"}
+                  {submitting ? "Submitting..." : "Request my on‑site audit"}
                 </Button>
               </form>
             </CardContent>

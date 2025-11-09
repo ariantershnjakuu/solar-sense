@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type TopBarProps = {
   className?: string;
@@ -35,16 +36,19 @@ export const TopBar = ({
               Back
             </Button>
           ) : null}
-          <img src={logo} alt="sparxAI" className="h-10" />
+          <img src={logo} alt="SolarSense" className="h-10" />
         </div>
-        {rightAction ? (
-          <Button
-            variant={rightAction.variant ?? "outline"}
-            onClick={() => navigate(rightAction.to)}
-          >
-            {rightAction.label}
-          </Button>
-        ) : null}
+        <div className="flex items-center gap-2">
+          {rightAction ? (
+            <Button
+              variant={rightAction.variant ?? "outline"}
+              onClick={() => navigate(rightAction.to)}
+            >
+              {rightAction.label}
+            </Button>
+          ) : null}
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

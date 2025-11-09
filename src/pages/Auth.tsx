@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -48,7 +48,7 @@ const Auth = () => {
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-card border-border">
         <CardHeader className="space-y-4 text-center">
-          <img src={logo} alt="sparxAI" className="h-20 mx-auto" />
+          <img src={logo} alt="SolarSense" className="h-20 mx-auto" />
           <CardTitle className="text-2xl font-bold">
             {isLogin ? "Welcome Back" : "Get Started"}
           </CardTitle>

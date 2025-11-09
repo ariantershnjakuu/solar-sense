@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { Loader2, Sun } from "lucide-react";
-import logo from "@/assets/sparxai-logo.svg";
+import logo from "@/assets/solar-sense-removebg-preview.png";
 
 type SiteVisit = {
   id: string;
@@ -151,7 +151,7 @@ const SolarReport = () => {
   return (
     <div className="min-h-screen bg-gradient-hero">
       <header className="container mx-auto px-4 py-6 flex items-center justify-between">
-        <img src={logo} alt="sparxAI" className="h-12" />
+        <img src={logo} alt="SolarSense" className="h-12" />
         <Button variant="outline" onClick={() => navigate("/")}>Home</Button>
       </header>
 

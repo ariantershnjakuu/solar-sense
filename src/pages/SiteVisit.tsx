@@ -89,8 +89,8 @@ const SiteVisit = () => {
         <div className="max-w-3xl mx-auto">
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle>On-Site Energy Readiness Checklist</CardTitle>
-              <CardDescription>15-minute visit to assess solar readiness</CardDescription>
+              <CardTitle>On-Site Energy Audit Checklist</CardTitle>
+              <CardDescription>Quick visit to assess home energy and solar readiness</CardDescription>
             </CardHeader>
             <CardContent>
               <form className="space-y-5" onSubmit={handleSave}>
