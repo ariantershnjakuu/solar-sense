@@ -83,6 +83,38 @@ const SolarPotential = () => {
 
     const co2_tons = Math.round(annual_production_kwh * 0.0006 * 10) / 10;
 
+    // 25-year savings per provided assumptions:
+    // - 1 kWp generates ~3.1 kWh/day (between 3 and 3.2)
+    // - Install cost ≈ €1000 per 1 kWp
+    // - Grid price in Kosovo ≈ €0.10/kWh
+    const kwp = system_size_kw;
+    const daily_kwh_per_kwp = 3.1;
+    const annual_kwh_assumption = Math.round(kwp * daily_kwh_per_kwp * 365);
+    const savings_25y_eur = Math.round(annual_kwh_assumption * 25 * 0.10);
+    const install_cost_estimate_eur = Math.round(kwp * 1000);
+    const savings_25y_percent_vs_cost = Math.round(
+      (savings_25y_eur / Math.max(install_cost_estimate_eur, 1)) * 100
+    );
+
+    // Energy storage (simple heuristic):
+    // - Daily PV ~ annual_production_kwh / 365
+    // - Recommend ~50% of daily PV as battery capacity, clamped 2–10 kWh, rounded to 0.5 kWh
+    // - Cost range ~ €300–€500 per kWh installed
+    const daily_pv_kwh = Math.max(1, Math.round(annual_production_kwh / 365));
+    const battery_kwh_recommended = Math.max(
+      2,
+      Math.min(
+        10,
+        Math.round(((annual_production_kwh / 365) * 0.5) * 2) / 2
+      )
+    );
+    const battery_cost_low = Math.round(battery_kwh_recommended * 300);
+    const battery_cost_high = Math.round(battery_kwh_recommended * 500);
+    const battery_coverage_pct = Math.min(
+      100,
+      Math.round((battery_kwh_recommended / Math.max(daily_pv_kwh, 1)) * 100)
+    );
+
     return {
       system_size_kw,
       annual_production_kwh,
@@ -91,6 +123,15 @@ const SolarPotential = () => {
       annual_savings_eur,
       payback_years,
       co2_tons,
+      savings_25y_eur,
+      savings_25y_percent_vs_cost,
+      install_cost_estimate_eur,
+      annual_kwh_assumption,
+      daily_pv_kwh,
+      battery_kwh_recommended,
+      battery_cost_low,
+      battery_cost_high,
+      battery_coverage_pct,
     };
   }, [audit]);
 
@@ -198,14 +239,12 @@ const SolarPotential = () => {
       <div className="container mx-auto px-4 py-8" ref={reportRef}>
         <div className="max-w-5xl mx-auto space-y-8">
           <Card className="bg-gradient-card border-border shadow-glow-primary">
-            <CardContent className="p-8 text-center">
-              <h2 className="text-2xl font-bold mb-2">Solar Potential Overview</h2>
-              <p className="text-muted-foreground">
+            <CardContent className="relative overflow-hidden px-8 py-20 text-center">
+              <div className="pointer-events-none absolute inset-0 bg-[url('@/assets/placeholder-solar-panel.png')] bg-cover bg-center opacity-20" />
+              <h2 className="relative z-10 text-2xl font-bold mb-2">Solar Potential Overview</h2>
+              <p className="relative z-10 text-muted-foreground">
                 {audit.city || "Your area"} average sunlight and roof assumptions used for this estimate.
               </p>
-              {persistedId && (
-                <p className="text-xs text-muted-foreground mt-2">Assessment saved (#{persistedId}).</p>
-              )}
             </CardContent>
           </Card>
 
@@ -254,7 +293,55 @@ const SolarPotential = () => {
             </CardContent>
           </Card>
 
-          <div className="flex gap-3 print:hidden">
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle>25-Year Savings</CardTitle>
+              <CardDescription>
+                Based on 3.1 kWh/day per kWp, €1000/kWp install, and €0.10/kWh.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <div className="text-sm text-muted-foreground">Total savings (25 years)</div>
+                <div className="text-2xl font-semibold">€{numbers.savings_25y_eur}</div>
+              </div>
+              <div>
+                <div className="text-sm text-muted-foreground">Savings vs system cost</div>
+                <div className="text-3xl font-bold text-primary">{numbers.savings_25y_percent_vs_cost}%</div>
+              </div>
+              <div>
+                <div className="text-sm text-muted-foreground">Assumed annual generation</div>
+                <div className="text-2xl font-semibold">{numbers.annual_kwh_assumption} kWh/yr</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card border-border">
+            <CardHeader>
+              <CardTitle>Energy Storage (Optional)</CardTitle>
+              <CardDescription>
+                Increase self-consumption and gain backup power with a home battery.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <div className="text-sm text-muted-foreground">Recommended capacity</div>
+                <div className="text-2xl font-semibold">{numbers.battery_kwh_recommended} kWh</div>
+                <div className="text-xs text-muted-foreground mt-1">~{numbers.battery_coverage_pct}% of daily PV</div>
+              </div>
+              <div>
+                <div className="text-sm text-muted-foreground">Estimated installed cost</div>
+                <div className="text-2xl font-semibold">€{numbers.battery_cost_low}–€{numbers.battery_cost_high}</div>
+                <div className="text-xs text-muted-foreground mt-1">€300–€500 per kWh</div>
+              </div>
+              <div>
+                <div className="text-sm text-muted-foreground">Daily PV production</div>
+                <div className="text-2xl font-semibold">~{numbers.daily_pv_kwh} kWh/day</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* <div className="flex gap-3 print:hidden">
             <Button className="bg-gradient-primary hover:opacity-90" onClick={handleDownloadPdf}>
               <Sun className="mr-2 h-5 w-5" />
               Download PDF
@@ -262,7 +349,7 @@ const SolarPotential = () => {
             <Button variant="outline" onClick={() => navigate("/plan")}>
               Create action plan
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
