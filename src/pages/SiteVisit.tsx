@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import logo from "@/assets/sparxai-logo.svg";
+import { TopBar } from "@/components/TopBar";
 
 type Orientation =
   | "north" | "northeast" | "east" | "southeast"
@@ -83,9 +83,7 @@ const SiteVisit = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
-      <header className="container mx-auto px-4 py-6">
-        <img src={logo} alt="sparxAI" className="h-12" />
-      </header>
+      <TopBar showBack backTo="/lead" />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
@@ -114,6 +112,7 @@ const SiteVisit = () => {
                         <SelectItem value="north">North</SelectItem>
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">South-facing roofs perform best in most regions.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="roofType">Roof type</Label>
@@ -126,6 +125,7 @@ const SiteVisit = () => {
                         <SelectItem value="sloped">Sloped</SelectItem>
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">Flat roofs often use tilted racks for optimal angle.</p>
                   </div>
                 </div>
 
@@ -135,9 +135,11 @@ const SiteVisit = () => {
                     <Input
                       id="roofAngle"
                       type="number"
+                      placeholder="e.g. 25"
                       value={roofAngle}
                       onChange={(e) => setRoofAngle(Number(e.target.value))}
                     />
+                    <p className="text-xs text-muted-foreground">Around 30° is ideal; accuracy within ±5° is fine.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="shading">Shading</Label>
@@ -152,15 +154,18 @@ const SiteVisit = () => {
                         <SelectItem value="heavy">Heavy</SelectItem>
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">Trees and nearby buildings reduce output.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="avgMonthlyKwh">Avg. electricity use (kWh/month)</Label>
                     <Input
                       id="avgMonthlyKwh"
                       type="number"
+                      placeholder="e.g. 350"
                       value={avgMonthlyKwh}
                       onChange={(e) => setAvgMonthlyKwh(Number(e.target.value))}
                     />
+                    <p className="text-xs text-muted-foreground">From recent bills; rough estimate is okay.</p>
                   </div>
                 </div>
 
@@ -177,6 +182,7 @@ const SiteVisit = () => {
                         <SelectItem value="good">Good</SelectItem>
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">Better insulation lowers required system size.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="windows">Windows quality</Label>
@@ -190,6 +196,7 @@ const SiteVisit = () => {
                         <SelectItem value="good">Good</SelectItem>
                       </SelectContent>
                     </Select>
+                    <p className="text-xs text-muted-foreground">Double/triple glazing improves efficiency.</p>
                   </div>
                 </div>
 
@@ -207,9 +214,18 @@ const SiteVisit = () => {
                   </p>
                 </div>
 
-                <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90" disabled={saving}>
-                  {saving ? "Saving..." : "Save visit and generate report"}
-                </Button>
+                <div className="h-4" />
+                <div className="sticky bottom-0 left-0 right-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70 border-t border-border -mx-6 px-6 py-4 z-10">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                      <span className="text-muted-foreground">Readiness</span>{" "}
+                      <span className="font-semibold">{readinessScore}%</span>
+                    </div>
+                    <Button type="submit" className="bg-gradient-primary hover:opacity-90" disabled={saving}>
+                      {saving ? "Saving..." : "Save visit and generate report"}
+                    </Button>
+                  </div>
+                </div>
               </form>
             </CardContent>
           </Card>

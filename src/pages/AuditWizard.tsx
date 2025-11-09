@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import logo from "@/assets/sparxai-logo.svg";
+import { TopBar } from "@/components/TopBar";
 import BasicInfoStep from "@/components/audit/BasicInfoStep";
 import HeatingStep from "@/components/audit/HeatingStep";
 import WaterStep from "@/components/audit/WaterStep";
@@ -136,9 +136,7 @@ const AuditWizard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero">
-      <header className="container mx-auto px-4 py-6">
-        <img src={logo} alt="sparxAI" className="h-12" />
-      </header>
+      <TopBar showBack backTo="/" />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
@@ -159,7 +157,9 @@ const AuditWizard = () => {
             <CardContent className="space-y-6">
               <CurrentStepComponent formData={formData} updateFormData={updateFormData} />
 
-              <div className="flex justify-between pt-4">
+              <div className="h-4" />
+              <div className="sticky bottom-0 left-0 right-0 bg-card/90 backdrop-blur supports-[backdrop-filter]:bg-card/70 border-t border-border pt-4 -mx-6 px-6 z-10">
+                <div className="flex justify-between">
                 <Button
                   variant="outline"
                   onClick={handleBack}
@@ -188,6 +188,7 @@ const AuditWizard = () => {
                     </>
                   )}
                 </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
